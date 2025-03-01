@@ -24,10 +24,29 @@ class Board:
         left = self.left
         for h in self.board:
             for i in range(len(h)):
-                pygame.draw.rect(screen, pygame.Color('white'), (left, top, self.cell_size, self.cell_size), 1)
+                if h[i] == 0:
+                    pygame.draw.rect(screen, pygame.Color('white'), (left, top, self.cell_size, self.cell_size), 1)
+                else:
+                    pygame.draw.rect(screen, pygame.Color('white'), (left, top, self.cell_size, self.cell_size))
                 left += self.cell_size
             top += self.cell_size
             left = self.left
+
+    def change(self, x_pos, y_pos):
+        for row in range(len(self.board)):
+            if row != y_pos:
+                if self.board[row][x_pos] == 0:
+                    self.board[row][x_pos] = 1
+                else:
+                    self.board[row][x_pos] = 0
+            else:
+                print(1)
+                for i in range(len(self.board[row])):
+                    if self.board[row][i] == 0:
+                        self.board[row][i] = 1
+                    else:
+                        self.board[row][i] = 0
+
 
 
 if __name__ == '__main__':
@@ -43,6 +62,7 @@ if __name__ == '__main__':
                 y_pos = (y - board.top) // board.cell_size
                 if 0 <= x_pos <= board.width - 1 and 0 <= y_pos <= board.height - 1:
                     print((x_pos, y_pos))
+                    board.change(x_pos, y_pos)
                 else:
                     print(None)
         screen.fill((0, 0, 0))
