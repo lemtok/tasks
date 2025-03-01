@@ -14,6 +14,7 @@ class Board:
         self.top = 10
         self.cell_size = 50
         self.colours = {0: pygame.Color('white'), 1: pygame.Color('red'), 2: pygame.Color('blue')}
+        self.step = 1
 
     def set_view(self, left, top, cell_size):
         self.left = left
@@ -26,17 +27,22 @@ class Board:
         for h in self.board:
             for i in range(len(h)):
                 pygame.draw.rect(screen, pygame.Color('white'), (left, top, self.cell_size, self.cell_size), 1)
-                if h[i]:
-                    pygame.draw.rect(screen, self.colours[h[i]], (left + 1, top + 1, self.cell_size - 2, self.cell_size - 2))
+                if h[i] == 1:
+                    pygame.draw.line(screen, pygame.Color('blue'), (left + 2, top + 2), (left - 2 + self.cell_size - 2, top - 2 + self.cell_size - 2), 3)
+                    pygame.draw.line(screen, pygame.Color('blue'), (left - 2 + self.cell_size - 2, top + 2), (left + 2, top - 2 + self.cell_size - 2), 3)
+                elif h[i] == 2:
+                    pygame.draw.circle(screen, pygame.Color('red'), (left + self.cell_size // 2, top + self.cell_size // 2), self.cell_size // 2 - 2, 3)
                 left += self.cell_size
             top += self.cell_size
             left = self.left
 
     def change(self, x_pos, y_pos):
-        if self.board[y_pos][x_pos] < 2:
-            self.board[y_pos][x_pos] += 1
-        else:
-            self.board[y_pos][x_pos] = 0
+        if not self.board[y_pos][x_pos]:
+            if self.step % 2 != 0:
+                self.board[y_pos][x_pos] = 1
+            else:
+                self.board[y_pos][x_pos] = 2
+            self.step += 1
 
 
 if __name__ == '__main__':
