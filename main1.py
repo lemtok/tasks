@@ -37,6 +37,14 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                x_pos = (x - board.left) // board.cell_size
+                y_pos = (y - board.top) // board.cell_size
+                if 0 <= x_pos <= board.width - 1 and 0 <= y_pos <= board.height - 1:
+                    print((x_pos, y_pos))
+                else:
+                    print(None)
         screen.fill((0, 0, 0))
         board.render(screen)
         pygame.display.flip()
